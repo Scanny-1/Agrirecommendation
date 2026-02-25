@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smart Crop Recommendation System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #d4fc79, #96e6a1);
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .main-card {
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            background: white;
+        }
+        .header {
+            background: linear-gradient(45deg, #2e7d32, #4caf50);
+            color: white;
+            border-radius: 25px 25px 0 0;
+        }
+        .btn-predict {
+            background: #1b5e20;
+            border: none;
+            font-size: 1.3rem;
+            padding: 12px;
+        }
+        .btn-predict:hover {
+            background: #003300;
+        }
+        .result-box {
+            background: #e8f5e8;
+            border-left: 6px solid #2e7d32;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="p-3 p-md-5">
+<div class="container">
+    <div class="card main-card mx-auto" style="max-width: 900px;">
+        <div class="card-header text-center header py-4">
+            <h1 class="mb-0">Smart Crop Recommendation System</h1>
+            <p class="mb-0 mt-2">Enter soil & weather data → Get recommended crop + yield + profit</p>
+        </div>
+
+        <div class="card-body p-5">
+            <form method="post">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Nitrogen (N)</label>
+                        <input type="number" step="0.1" name="N" class="form-control form-control-lg" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Phosphorus (P)</label>
+                        <input type="number" step="0.1" name="P" class="form-control form-control-lg" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Potassium (K)</label>
+                        <input type="number" step="0.1" name="K" class="form-control form-control-lg" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Temperature (°C)</label>
+                        <input type="number" step="0.1" name="temperature" class="form-control form-control-lg" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Humidity (%)</label>
+                        <input type="number" step="0.1" name="humidity" class="form-control form-control-lg" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">pH Level</label>
+                        <input type="number" step="0.01" name="ph" class="form-control form-control-lg" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Rainfall (mm)</label>
+                        <input type="number" step="0.1" name="rainfall" class="form-control form-control-lg" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Area (acres)</label>
+                        <input type="number" step="0.1" name="area" class="form-control form-control-lg" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-predict w-100 mt-5">
+                    Get Recommendation
+                </button>
+            </form>
+
+            {% if result %}
+            <div class="result-box p-4 mt-5">
+                <h2 class="text-center text-success mb-4">Recommendation Result</h2>
+                <h1 class="display-4 text-center text-success">{{ result.crop }}</h1>
+                <hr>
+                <h4 class="text-center">Cultivation Area: {{ result.area }} acres</h4>
+                <h4 class="text-center">Expected Yield: <span class="text-primary">{{ result.yield }} kg</span></h4>
+                <h3 class="text-center text-success">Estimated Profit: ₹{{ result.profit }}</h3>
+
+                <h4 class="text-center mt-3">Fertilizer Requirement:</h4>
+                <p class="text-center fs-5">
+                    Urea: {{ result.urea }} kg &nbsp; | &nbsp;
+                    DAP: {{ result.dap }} kg &nbsp; | &nbsp;
+                    MOP: {{ result.mop }} kg
+                </p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="card-footer text-center text-muted">
+            Powered by Random Forest | Built with Flask & Bootstrap
+        </div>
+    </div>
+</div>
+</body>
+</html>
